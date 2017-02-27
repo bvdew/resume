@@ -1,0 +1,55 @@
+<html>
+<script src="scripts/docxtemplater-latest.min.js"></script>
+<script src="scripts/jszip.min.js"></script>
+<script src="scripts/file-saver.min.js"></script>
+<script src="scripts/jszip-utils.js"></script>
+<!--
+    Mandatory in IE 6, 7, 8 and 9.
+    -->
+<!--[if IE]>
+        <script type="text/javascript" src="jszip-utils-ie.js"></script>
+    <![endif]-->
+<script>
+function loadFile(url, callback) {
+    JSZipUtils.getBinaryContent(url, callback);
+}
+loadFile("examples/tag-example.docx", function(error, content) {
+    if (error) {
+        throw error
+    };
+    var zip = new JSZip(content);
+    var doc = new Docxtemplater().loadZip(zip)
+    doc.setData({
+        first_name: 'Brian',
+        last_name: 'VanDeWiel',
+        phone: '262.202.5462',
+        description: 'New Website',
+        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porttitor massa laoreet ullamcorper tincidunt. Integer eu purus vestibulum, sollicitudin felis quis, auctor quam. Cras fringilla sem risus, nec consectetur lorem vehicula eleifend. Proin blandit luctus imperdiet. Ut auctor euismod dui in dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse volutpat id mi faucibus euismod. Morbi sed velit at magna maximus pretium ut id elit. Morbi at tortor ut ante feugiat consectetur. Sed eget ante mauris. Aenean sit amet ullamcorper orci, consequat suscipit arcu. Quisque lacinia erat nec nisi faucibus, vel pretium augue volutpat. Sed sapien nisi, pellentesque tristique sodales id, rhoncus et lacus. Duis mauris lectus, tempor volutpat efficitur sed, placerat et turpis. Nulla dui nulla, laoreet in diam eget, posuere rhoncus felis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut dignissim euismod orci, ut suscipit libero commodo nec. Praesent finibus imperdiet lacus, ut ultrices libero tristique mollis. Sed sodales velit a ipsum tempor, id finibus nunc dignissim. Quisque sed nisl quis ante congue sodales a quis libero. Morbi ultricies tellus eros. Maecenas imperdiet fermentum turpis, in fringilla diam consequat ac. Aenean dolor dolor, condimentum vel tincidunt a, porttitor vel ex. Ut molestie diam odio. Quisque consequat tortor condimentum vestibulum cursus. Proin a turpis scelerisque, facilisis tellus ut, facilisis diam. Fusce ultricies iaculis erat, fringilla tincidunt dui ornare a. Integer cursus viverra diam, at volutpat dolor rhoncus in. Etiam tincidunt in augue sit amet fringilla. Ut facilisis, ex at interdum efficitur, justo tellus fringilla nisl, accumsan euismod mauris nibh sed urna. Donec sit amet massa semper, lacinia enim non, tempus dui. Nullam quis luctus ante. Nullam aliquet nec ex at volutpat. Cras placerat tincidunt ligula, ut consequat ligula hendrerit nec. Integer vulputate rutrum convallis. Praesent blandit sagittis volutpat. Suspendisse mi mi, convallis sed aliquet ac, ultrices eget elit. Etiam tincidunt maximus enim vitae venenatis. Donec tempor blandit auctor. Aliquam sagittis eros ac nunc dapibus facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed suscipit, nisl vel ornare efficitur, dolor sapien venenatis purus, in malesuada dolor orci et magna. Duis nec mi a ante eleifend interdum. Curabitur lobortis hendrerit dolor sit amet iaculis. Quisque et lacinia neque, at ullamcorper nulla. Nunc vestibulum leo in efficitur sagittis. Donec dui nibh, facilisis in est varius, dapibus mollis nunc. Nunc vitae consequat ligula. Nullam fringilla, justo a tempor porta, ligula erat sagittis urna, ornare bibendum odio ipsum accumsan magna. Donec tincidunt lacus a nisl efficitur eleifend. Suspendisse elit sem, auctor sed facilisis in, semper eu massa. Donec egestas metus ut velit suscipit, in sagittis nibh vulputate. Quisque non sodales magna, sit amet laoreet ipsum. In placerat fermentum eros et bibendum. Suspendisse eu tellus maximus, vestibulum purus at, pulvinar nunc. Nullam rhoncus dapibus eros, id gravida tellus dignissim sed.'
+    });
+
+    try {
+        // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
+        doc.render()
+    } catch (error) {
+        var e = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+            properties: error.properties,
+        }
+        console.log(JSON.stringify({
+            error: e
+        }));
+        // The error thrown here contains additional information when logged with JSON.stringify (it contains a property object).
+        throw error;
+    }
+
+    var out = doc.getZip().generate({
+            type: "blob",
+            mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        }) //Output the document using Data-URI
+    saveAs(out, "output.docx")
+})
+</script>
+
+</html>
