@@ -2,6 +2,7 @@ $(function() {
     $(document).on("change", "select#selectShop", function() {
         var storeId = $(this).find("option:selected").text();
         if (storeId != "") {
+            bestSellers = {};
             getReport(storeId);
         }
     });
