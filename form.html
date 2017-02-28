@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>Form</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="scripts/slick/slick.css" />
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+    
+    body {
+        background: linear-gradient(270DEG, #E9DCCD, #E3BAB3, #613A43, #849974, #36384C);
+        background-size: 800% 800%;
+        -webkit-animation: BackgroundGradient 180s ease infinite;
+        -moz-animation: BackgroundGradient 180s ease infinite;
+        animation: BackgroundGradient 180s ease infinite;
+    }
+    
+    @-webkit-keyframes BackgroundGradient {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 50%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+    
+    @-moz-keyframes BackgroundGradient {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 50%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+    
+    @keyframes BackgroundGradient {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 50%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+    
+    .formCarousel {
+        padding-top: 10%;
+    }
+    
+    .slide.slick-slide {
+        opacity: 0.5;
+        border: 1px solid #ccc;
+        padding: 1% 3%;
+        border-radius: 6px;
+        background-color: #FFF;
+        z-index: 1;
+        position: relative;
+        transform: scale(0.7);
+    }
+    
+    .slide.slick-current {
+        opacity: 1;
+        z-index: 10;
+        transform: scale(1);
+        transition: all 1s;
+    }
+    </style>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="formCarousel col-xs-12 text-center">
+                    <div class="slide row">
+                        <div class="row">
+                            <h1 class="col-xs-12">Slide 1</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a class="rightArrow col-xs-6">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide row">
+                        <div class="row">
+                            <h1 class="col-xs-12">Slide 2</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a class="leftArrow col-xs-6">Previous</a>
+                                <a class="rightArrow col-xs-6">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide row">
+                        <div class="row">
+                            <h1 class="col-xs-12">Slide 3</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a class="leftArrow col-xs-6">Previous</a>
+                                <a class="rightArrow col-xs-6">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide row">
+                        <div class="row">
+                            <h1 class="col-xs-12">Slide 4</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a class="leftArrow col-xs-6">Previous</a>
+                                <a class="rightArrow col-xs-6">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide row">
+                        <div class="row">
+                            <h1 class="col-xs-12">Slide 5</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input type="text" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a class="leftArrow col-xs-6">Previous</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="scripts/slick/slick.min.js"></script>
+        <script>
+        $('.formCarousel').slick({
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            centerMode: true,
+            centerPadding: "1px",
+            arrows: false,
+            dots: false,
+            adaptiveHeight: true
+        });
+
+        $('.leftArrow').on('click', function() {
+            $('.formCarousel').slick("slickPrev");
+        });
+        $('.rightArrow').on('click', function() {
+            $('.formCarousel').slick("slickNext");
+        });
+        </script>
+    </body>
+
+</html>
