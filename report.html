@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>Report</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+    
+    table.table.table-inverse td {
+        background-color: #B2EBF2;
+    }
+    
+    table.table.table-inverse tr.total td {
+        background-color: #81D4FA;
+        font-weight: 600;
+    }
+    </style>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <p class="col-md-2">Select Seller</p>
+                <select id="selectShop" class="col-md-3">
+                    <option>Loading...</option>
+                </select>
+            </div>
+            <div class="row">
+                <h1 class="col-xs-12">Sales Report</h1>
+                <table class="table table-hover">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="row">
+                <h1 class="col-xs-12">Best Sellers</h1>
+                <div class="col-xs-12" id="bestSellers">
+                </div>
+            </div>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="scripts/report.js"></script>
+    </body>
+
+</html>
