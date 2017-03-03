@@ -100,3 +100,7 @@ h1 {
     color: #FFF !important;
     outline: none;
 }
+
+input {
+  width: 100%;
+}

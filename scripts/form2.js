@@ -9,4 +9,8 @@ $(function () {
         $("div.tab>div.tab-content").eq(index).addClass("active");
     });
 
+    $(".btn-next").click(function(e){
+        $("div.tab-menu>div.list-group>a").eq($(this).attr("data-target")).trigger("click");
+    });
+
 })
