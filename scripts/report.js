@@ -10,7 +10,8 @@ $(function() {
     var dailySales = {},
         soldItems = {},
         bestSellers = {},
-        stores = {};
+        stores = {},
+        topSellers = {};
 
     $.ajax({
             url: "http://gsx2json.com/api?id=14A6a4qkvl3MfsBzevZ6MxZ9suLPPolI9FJ7TZBUjyEA&sheet=3",
@@ -20,7 +21,18 @@ $(function() {
             soldItems = result.rows;
             console.log(soldItems);
 
-            
+            $(soldItems).each(function(){
+                //get top selling items of all stores
+                if (topSellers[this.itemid] == undefined) {
+                    topSellers[this.itemid] = {
+                        "sold": this.sold,
+                        "store": this.storeid
+                    };
+                } else {
+                    topSellers[this.itemid].sold = topSellers[this.itemid].sold + this.sold;
+                }
+            });
+            printTS(topSellers);
         })
         .fail(function(result) {
             console.log(result);
@@ -145,4 +157,33 @@ $(function() {
 
         $("#bestSellers").empty().append(row.join(""));
     };
+
+    var printTS = function(data){
+        var row = [],
+            arr = [];
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                arr.push({
+                    "id": key,
+                    "sold": data[key].sold,
+                    "store": data[key].store
+                });
+            }
+        }
+
+        arr.sort(SortBySold);
+        arr.reverse();
+
+        function SortBySold(a, b) {
+            var aName = a.sold;
+            var bName = b.sold;
+            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+        }
+
+        $.each(arr, function() {
+            row.push('<div class="row"><span class="col-xs-1">' + this.id + '</span><span class="col-xs-1">' + this.sold + '</span>><span class="col-xs-2">' + this.store + '</span><span class="col-xs-1"><a href="https://www.etsy.com/listing/' + this.id + '" target="_blank">Link</a></span></div>');
+        });
+
+        $("#topSellers").empty().append(row.join(""));
+    }
 });
