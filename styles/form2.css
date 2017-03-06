@@ -91,6 +91,7 @@ h1 {
 .btn.btn-next {
     background-color: #5e59a5;
     color: #FFF;
+    transition: all 0.2s;
 }
 
 .btn-next:hover,
@@ -103,4 +104,26 @@ h1 {
 
 input {
   width: 100%;
+}
+
+.education-group,
+.experience-group,
+.reference-group {
+    border: 1px solid #e0e0e1;
+    margin: 20px 0;
+    padding: 2% 1%;
+    border-radius: 6px;
+}
+
+textarea {
+  margin: 20px 0;
+}
+
+.export-btn {
+    margin-bottom: 20px;
+    transition: all 0.2s;
+}
+
+.export-btn:hover {
+  background-color: #afafaf;
 }

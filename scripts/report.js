@@ -57,7 +57,7 @@ $(function() {
 
     var getReport = function(storeId) {
         var reportData = [],
-            ONE_HOUR = 60 * 60 * 1000;;
+            ONE_HOUR = 60 * 60 * 1000;
 
         $(dailySales).each(function() {
             if (this.store == storeId) {

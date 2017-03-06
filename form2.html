@@ -48,28 +48,84 @@
                             </div>
                             <div class="row">
                                 <div class="wrapper">
-                                    <p>You are just steps away from creating your professional resume. The forms on this website will guide you through completing all of the text on your resume.</p>
-                                    <p>Click on the tabs to the left to get started. When you have filled in all of the fields (or choose which ones you want to fill), click on the Export tab to get links to your .docx template. You can then open the .docx template in word and modify the resume even more.</p>
-                                    <p>Please remember that none of your information is stored or saved. If you close your browser, all filled fields will be cleared. Make sure you have enough time to complete all the fields and export your resume.</p>
+                                    <p>You are just steps away from creating your professional resume. The forms on this website
+                                        will guide you through completing all of the text on your resume.</p>
+                                    <p>Click on the tabs to the left to get started. When you have filled in all of the fields
+                                        (or choose which ones you want to fill), click on the Export tab to get links to
+                                        your .docx template. You can then open the .docx template in word and modify the
+                                        resume even more.</p>
+                                    <p>Please remember that none of your information is stored or saved. If you close your browser,
+                                        all filled fields will be cleared. Make sure you have enough time to complete all
+                                        the fields and export your resume.</p>
                                     <button class="text-center btn btn-next" data-target="1">Next</button>
                                 </div>
                             </div>
                         </div>
                         <!-- contact section -->
-                        <div class="tab-content">
+                        <div class="tab-content" id="contact">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">Contact Information</h1>
                             </div>
                             <div class="row">
                                 <div class="wrapper">
                                     <div class="row">
-                                        <p class="col-xs-12">You are just steps away from creating your professional resume. The forms on this website will guide you through completing all of the text on your resume.</p>
+                                        <p class="col-xs-12">Fill in each field with your information. If you leave any fields blank, they will
+                                            not show up in your finished resume. *Note: your information is not stored, so
+                                            if you close the browser, all of your work will be lost. This ensures your privacy.</p>
                                     </div>
 
                                     <div class="row form-group">
                                         <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
                                         <div class="col-sm-10">
                                             <input type="text" id="firstName" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="lastName" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="email" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="phone" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="address1" class="col-sm-2 col-form-label">Address Line 1</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="address1" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="address2" class="col-sm-2 col-form-label">Address Line 2</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="address2" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="city" class="col-sm-2 col-form-label">City</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="city" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="state" class="col-sm-2 col-form-label">State</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="state" />
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="zip" class="col-sm-2 col-form-label">Postal Code</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" id="zip" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -83,40 +139,335 @@
                         </div>
 
                         <!-- personal statement section -->
-                        <div class="tab-content">
+                        <div class="tab-content" id="personal">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">Personal Statement</h1>
                             </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">Your personal statement is a short introduction of who you are. Include any objectives
+                                            you have or personal goals you are looking for professionally. Try to keep it
+                                            short.
+                                        </p>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <label for="personalStatement" class="col-sm-2 col-form-label">Personal Statement</label>
+                                        <div class="col-sm-10">
+                                            <textarea id="personalStatement" rows="10" cols="60"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-next" data-target="1">Previous</button>
+                                            <button class="text-center btn btn-next" data-target="3">Next</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- education section -->
-                        <div class="tab-content">
+                        <div class="tab-content" id="education">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">Education</h1>
                             </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">To add more educational experience, click the '+' button to add more rows.</p>
+                                    </div>
+
+                                    <div class="education-group">
+                                        <div class="row form-group">
+                                            <label for="institute" class="col-sm-2 col-form-label">Institute</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="institute" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="startMonth" class="col-sm-2 col-form-label">Dates</label>
+                                            <div class="col-sm-2">
+                                                <select class="startMonth">
+                                                    <option value="0">Start Month</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="startYear years">
+                                                    <option value="0">Start Year</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1 text-center">
+                                                to
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="endMonth">
+                                                    <option value="0">End Month</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="endYear years">
+                                                    <option value="0">End Year</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="course" class="col-sm-2 col-form-label">Course of Study</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="course" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="education-placeholder"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center">
+                                            <button type="button" class="btn btn-secondary add-education">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-next" data-target="2">Previous</button>
+                                            <button class="text-center btn btn-next" data-target="4">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- experience section -->
-                        <div class="tab-content">
+                        <div class="tab-content" id="experience">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">Experience</h1>
                             </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">To add more educational experience, click the '+' button to add more rows.</p>
+                                    </div>
+
+                                    <div class="experience-group">
+                                        <div class="row form-group">
+                                            <label for="company" class="col-sm-2 col-form-label">Company</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="company" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="position" class="col-sm-2 col-form-label">Position Held</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="position" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="startMonth" class="col-sm-2 col-form-label">Dates</label>
+                                            <div class="col-sm-2">
+                                                <select class="startMonth">
+                                                    <option value="0">Start Month</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="startYear years">
+                                                    <option value="0">Start Year</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1 text-center">
+                                                to
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="endMonth">
+                                                    <option value="0">End Month</option>
+                                                    <option value="present">Present</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="endYear years">
+                                                    <option value="0">End Year</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="description" class="col-sm-2 col-form-label">Description (Hit Enter for each new line)</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="description" rows="5" cols="80"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="experience-placeholder"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center">
+                                            <button type="button" class="btn btn-secondary add-experience">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-next" data-target="3">Previous</button>
+                                            <button class="text-center btn btn-next" data-target="5">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- skills section -->
-                        <div class="tab-content">
+                        <div class="tab-content" id="skills">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">Skills</h1>
                             </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">Add your skills by typing in the text area below. One skill per line.</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 ">
+                                            <textarea id="skills" rows="10" cols="90"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-next" data-target="4">Previous</button>
+                                            <button class="text-center btn btn-next" data-target="6">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- personal staement section -->
-                        <div class="tab-content">
+                        <div class="tab-content" id="references">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">References</h1>
                             </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">To add more references, click the '+' button to add more rows.</p>
+                                    </div>
+
+                                    <div class="reference-group">
+                                        <div class="row form-group">
+                                            <label for="referenceName" class="col-sm-2 col-form-label">Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="referenceName" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="referencePosition" class="col-sm-2 col-form-label">Position</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="referencePosition" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="referenceCompany" class="col-sm-2 col-form-label">Company</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="referenceCompany" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="referencePhone" class="col-sm-2 col-form-label">Phone</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="referencePhone" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="referenceEmail" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="referenceEmail" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="reference-placeholder"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center">
+                                            <button type="button" class="btn btn-secondary add-reference">+</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-next" data-target="5">Previous</button>
+                                            <button class="text-center btn btn-next" data-target="7">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- export section -->
                         <div class="tab-content">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">Export Your Resume</h1>
                             </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">Once you have filled out all of the fields you are interested in. Click on the "Export Resume to .docx" button.</p>
+                                        <p class="col-xs-12">If you wish to download a blank template with placeholder text, click on the "Download Template" button.</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn export-btn" id="exportDocx">Export Resume to .docx</button>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn export-btn" id="downloadTemplate">Download Template</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-next" data-target="6">Previous</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -124,6 +475,11 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
+        <script src="scripts/docxtemplater-latest.min.js"></script>
+        <script src="scripts/jszip.min.js"></script>
+        <script src="scripts/file-saver.min.js"></script>
+        <script src="scripts/jszip-utils.js"></script>
+        <script type="text/javascript" src="scripts/export.js"></script>
         <script type="text/javascript" src="scripts/form2.js"></script>
     </body>
 
