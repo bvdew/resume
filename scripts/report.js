@@ -93,11 +93,10 @@ $(function() {
                         }
                     }
                 });
-
                 reportData.push({
                     "date": this.date,
-                    "totalSales": this.totalsales,
-                    "sold": this.sold,
+                    "totalSales": parseInt(this.totalsales.toString().replace(',', '')),
+                    "sold": parseInt(this.sold),
                     "itemSold": itemsSold
                 });
             }
@@ -111,7 +110,7 @@ $(function() {
             rowId = 0;
 
         $(data).each(function() {
-            row.push('<tr data-toggle="collapse" data-target="#accordion' + rowId + '" class="clickable"><td>' + this.date + "</td><td>" + this.totalSales + "</td><td>" + this.sold + "</td><td></tr>");
+            row.push('<tr data-toggle="collapse" data-target="#accordion' + rowId + '" class="clickable"><td>' + this.date + "</td><td>" + this.totalSales.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + "</td><td>" + this.sold + "</td><td>$" + (this.sold * 13.5) + "</td></tr>");
             row.push('<tr id="accordion' + rowId + '" class="collapse"><td colspan="3"><table class="table table-hover table-inverse"><thead><tr><th>Item</th><th>No. Sold</th><th>URL</th></tr></thead><tbody>');
 
             soldCount = 0;
@@ -126,7 +125,6 @@ $(function() {
             rowId++;
         });
         $("tbody").empty().append(row.join(""));
-
 
         row = [];
 
@@ -149,13 +147,31 @@ $(function() {
             return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
         }
 
-        console.log(arr);
-
         $.each(arr, function() {
             row.push('<div class="row"><span class="col-xs-1">' + this.id + '</span><span class="col-xs-1">' + this.sold + '</span><span class="col-xs-1"><a href="https://www.etsy.com/listing/' + this.id + '" target="_blank">Link</a></span></div>');
         });
 
         $("#bestSellers").empty().append(row.join(""));
+
+        var f = data[0],
+            e = data[data.length-1];
+
+        var salesDiff = e.totalSales - f.totalSales,
+            profit = 13.5 * salesDiff,
+            now = moment(e.date),
+            end = moment(f.date),
+            duration = moment.duration(now.diff(end)),
+            days = duration.asDays();
+
+        $("p.soldDaily").text("Sold Daily: " + Math.floor((salesDiff/days)));
+        $("p.dailySales").text("Daily Sales: $" + parseFloat((profit / days), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        $("p.weeklySales").text("Weekly Sales: $" + parseFloat(((profit / days) * 7), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var mo = ((profit / days) * 365) / 12;
+        $("p.monthlySales").text("Monthly Sales: $" + parseFloat(mo, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var yr = (profit / days) * 365;
+        $("p.yearlySales").text("Yearly Sales: $" + parseFloat(yr, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var all = e.totalSales * 13.5;
+        $("p.allTimeSales").text("All Time Sales: $" + parseFloat(all, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
     };
 
     var printTS = function(data){
