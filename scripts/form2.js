@@ -92,6 +92,8 @@ $(function () {
         $("#education .education-group").each(function () {
             eds.push({
                 "institute": $(this).find("input.institute").val(),
+                "city": $(this).find("input.city").val(),
+                "state": $(this).find("input.state").val(),
                 "startMonth": $(this).find("select.startMonth").val(),
                 "startYear": $(this).find("select.startYear").val(),
                 "endMonth": $(this).find("select.endMonth").val(),
@@ -104,14 +106,20 @@ $(function () {
         var exp = [];
         $("#experience .experience-group").each(function () {
             tinyMCE.triggerSave();
-            var description = $(this).find('textarea.description').val();
+            var description = $(this).find('textarea.description').val(),
+                endYear = "";
+            if( $(this).find("select.endMonth").val() != "Present" ){
+                endYear = $(this).find("select.endYear").val();
+            }
             exp.push({
                 "company": $(this).find("input.company").val(),
+                "city": $(this).find("input.city").val(),
+                "state": $(this).find("input.state").val(),
                 "position": $(this).find("input.position").val(),
                 "startMonth": $(this).find("select.startMonth").val(),
                 "startYear": $(this).find("select.startYear").val(),
                 "endMonth": $(this).find("select.endMonth").val(),
-                "endYear": $(this).find("select.endYear").val(),
+                "endYear": endYear,
                 "description": description
             });
         });
@@ -134,6 +142,6 @@ $(function () {
         console.log(data);
 
         //send it to the exporter
-        exportDocx(data, "examples/tag-example-3.docx");
+        exportDocx(data, "examples/basic-template.docx");
     });
 })

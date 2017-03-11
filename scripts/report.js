@@ -197,7 +197,7 @@ $(function() {
         }
 
         $.each(arr, function() {
-            row.push('<div class="row"><span class="col-xs-1">' + this.id + '</span><span class="col-xs-1">' + this.sold + '</span>><span class="col-xs-2">' + this.store + '</span><span class="col-xs-1"><a href="https://www.etsy.com/listing/' + this.id + '" target="_blank">Link</a></span></div>');
+            row.push('<div class="row"><span class="col-xs-1">' + this.id + '</span><span class="col-xs-1">' + this.sold + '</span><span class="col-xs-2">' + this.store + '</span><span class="col-xs-1"><a href="https://www.etsy.com/listing/' + this.id + '" target="_blank">Link</a></span></div>');
         });
 
         $("#topSellers").empty().append(row.join(""));

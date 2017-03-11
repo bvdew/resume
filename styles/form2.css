@@ -28,7 +28,7 @@ div.tab-menu div.list-group>a{
 }
 div.tab-menu div.list-group>a .glyphicon,
 div.tab-menu div.list-group>a .fa {
-  color: #5A55A3;
+  color: #078b7f;
 }
 div.tab-menu div.list-group>a:first-child{
   border-top-right-radius: 0;
@@ -41,8 +41,8 @@ div.tab-menu div.list-group>a:last-child{
 div.tab-menu div.list-group>a.active,
 div.tab-menu div.list-group>a.active .glyphicon,
 div.tab-menu div.list-group>a.active .fa{
-  background-color: #5A55A3;
-  background-image: #5A55A3;
+  background-color: #078b7f;
+  background-image: #078b7f;
   color: #ffffff;
 }
 div.tab-menu div.list-group>a.active:after{
@@ -54,7 +54,7 @@ div.tab-menu div.list-group>a.active:after{
   border-left: 0;
   border-bottom: 13px solid transparent;
   border-top: 13px solid transparent;
-  border-left: 10px solid #5A55A3;
+  border-left: 10px solid #078b7f;
 }
 
 div.tab-content{
@@ -89,7 +89,7 @@ h1 {
 }
 
 .btn.btn-next {
-    background-color: #5e59a5;
+    background-color: #078b7f;
     color: #FFF;
     transition: all 0.2s;
 }
@@ -97,7 +97,7 @@ h1 {
 .btn-next:hover,
 .btn-next:active,
 .btn-next:focus {
-    background-color: #444177;
+    background-color: #00695C;
     color: #FFF !important;
     outline: none;
 }
