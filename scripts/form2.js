@@ -108,7 +108,7 @@ $(function () {
             tinyMCE.triggerSave();
             var description = $(this).find('textarea.description').val(),
                 endYear = "";
-            if( $(this).find("select.endMonth").val() != "Present" ){
+            if ($(this).find("select.endMonth").val() != "Present") {
                 endYear = $(this).find("select.endYear").val();
             }
             exp.push({
@@ -141,7 +141,70 @@ $(function () {
 
         console.log(data);
 
-        //send it to the exporter
-        exportDocx(data, "examples/basic-template.docx");
+        //make sure the key max hasn't been reached and it was found
+        if(!keyMatch.maxReached && keyMatch.found){
+            //get the filename
+            $.ajax({
+                url: "getFile.php",
+                method: "POST",
+                data: { 'key': key},
+            })
+            .done(function(filename){
+                filename = $.trim(filename);
+                if(filename){
+                    console.log(filename);
+                    //send it to the exporter
+                    exportDocx(data, "examples/" + filename);
+                } else {
+                    alert("No filename available");
+                }
+            })
+            .fail(function(result){
+                console.log(result);
+            });
+        } else {
+            exportDocx(data, "examples/basic-example.docx");
+        }
+
     });
+
+    var keyMatch = {
+            "maxReached": false,
+            "found": true
+        };
+    var checkDownloads = function(){
+        //get the filename
+        $.ajax({
+            url: "getKey.php",
+            method: "POST",
+            data: { 'key': key},
+        })
+        .done(function(result){
+            console.log(result);
+            if(result > 100){
+                alert("This key has expired (max download limit reached). You may continue to fill out the form and download the sample template.");
+                keyMatch.maxReached = true;
+            } else if( result == "" ) {
+                alert("This key could not be found. You may continue to fill out the form and download the sample template.");
+                keyMatch.found = false;
+            }
+        })
+        .fail(function(result){
+            console.log(result);
+        });
+    }
+
+    var key = getUrlVars()["key"];
+    checkDownloads();
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1].replace(/#/g, '');
+        }
+        return vars;
+    }
 })
