@@ -76,7 +76,12 @@ $(function() {
 
                 //look for all the sold items
                 var itemsSold = [],
-                    reportDate = new Date(this.date);
+                    reportDate = new Date(this.date),
+                    sinceYear;
+
+                if(this.year != null){
+                    sinceYear = this.year;
+                }
                 $(soldItems).each(function() {
                     var soldDate = new Date(this.date);
 
@@ -97,7 +102,8 @@ $(function() {
                     "date": this.date,
                     "totalSales": parseInt(this.totalsales.toString().replace(',', '')),
                     "sold": parseInt(this.sold),
-                    "itemSold": itemsSold
+                    "itemSold": itemsSold,
+                    "sinceYear": sinceYear
                 });
             }
         });
@@ -163,6 +169,7 @@ $(function() {
             duration = moment.duration(now.diff(end)),
             days = duration.asDays();
 
+        $("p.sinceYear").text("Online Since: " + e.sinceYear);
         $("p.soldDaily").text("Sold Daily: " + Math.floor((salesDiff/days)));
         $("p.dailySales").text("Daily Sales: $" + parseFloat((profit / days), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
         $("p.weeklySales").text("Weekly Sales: $" + parseFloat(((profit / days) * 7), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());

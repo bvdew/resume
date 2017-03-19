@@ -76,7 +76,6 @@ $(function () {
 
     //export resume to .docx
     $(document).on("click", "#exportDocx", function () {
-        console.log("click")
         var data = {};
 
         //get contact info
@@ -163,7 +162,7 @@ $(function () {
                 console.log(result);
             });
         } else {
-            exportDocx(data, "examples/basic-example.docx");
+            exportDocx(data, "examples/basic-template2.docx");
         }
 
     });
@@ -173,25 +172,29 @@ $(function () {
             "found": true
         };
     var checkDownloads = function(){
-        //get the filename
-        $.ajax({
-            url: "getKey.php",
-            method: "POST",
-            data: { 'key': key},
-        })
-        .done(function(result){
-            console.log(result);
-            if(result > 100){
-                alert("This key has expired (max download limit reached). You may continue to fill out the form and download the sample template.");
-                keyMatch.maxReached = true;
-            } else if( result == "" ) {
-                alert("This key could not be found. You may continue to fill out the form and download the sample template.");
-                keyMatch.found = false;
-            }
-        })
-        .fail(function(result){
-            console.log(result);
-        });
+        if( key != undefined){
+            //get the filename
+            $.ajax({
+                url: "getKey.php",
+                method: "POST",
+                data: { 'key': key },
+            })
+            .done(function(result){
+                console.log(result);
+                if(result > 100){
+                    alert("This key has expired (max download limit reached). You may continue to fill out the form and download the sample template.");
+                    keyMatch.maxReached = true;
+                } else if( result == "" ) {
+                    alert("This key could not be found. You may continue to fill out the form and download the sample template.");
+                    keyMatch.found = false;
+                }
+            })
+            .fail(function(result){
+                console.log(result);
+            });
+        } else {
+            keyMatch.found = false;
+        }
     }
 
     var key = getUrlVars()["key"];
@@ -203,7 +206,11 @@ $(function () {
         for (var i = 0; i < hashes.length; i++) {
             hash = hashes[i].split('=');
             vars.push(hash[0]);
-            vars[hash[0]] = hash[1].replace(/#/g, '');
+            var value = hash[1];
+            if(value != undefined){
+                value.replace(/#/g, '');
+            }
+            vars[hash[0]] = value;
         }
         return vars;
     }
