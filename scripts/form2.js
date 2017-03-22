@@ -138,6 +138,13 @@ $(function () {
         });
         data["references"] = ref;
 
+        $.each(data, function(key, value){
+            if (value != "" || value != 0){
+                data["has" + key] = true;
+            } else {
+                data["has" + key] = false;
+            }
+        });
         console.log(data);
 
         //make sure the key max hasn't been reached and it was found

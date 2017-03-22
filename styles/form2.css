@@ -127,3 +127,7 @@ textarea {
 .export-btn:hover {
   background-color: #afafaf;
 }
+
+.mce-notification {
+  display: none !important;
+}
