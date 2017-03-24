@@ -36,30 +36,20 @@
         $limit = 0;
         foreach($dailySold as $value){
             if( isset($value->storename) && isset($value->date) && isset($value->totalSales) ){
+                $query = 'SELECT storeid FROM etsy_stores WHERE storeName = "' . $value->storename . '";';
+                //echo "<br/><br/>" . $query;
+                $result = $conn->query($query);
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                $storeid = $row['storeid'];
+                $result->free(); 
                 
-                $totalSalesQuery .= 'INSERT IGNORE INTO etsy_dailysales (storeid, date, totalSales) '
-                    . 'SELECT storeid, STR_TO_DATE("' . $value->date . '", "%m/%d/%Y %H:%i:%s"), "' 
-                    . str_replace(',', '', $value->totalSales) . '" FROM etsy_stores WHERE storeName = "' 
-                    . $value->storename . '" LIMIT 1;';
+                $totalSalesQuery = 'INSERT INTO etsy_dailysales (storeid, date, totalSales) SELECT "'
+                    . $storeid . '", STR_TO_DATE("' . $value->date . '", "%m/%d/%Y %H:%i:%s"), "' . $value->totalSales . '" FROM etsy_dailysales '
+                    . 'WHERE NOT EXISTS( SELECT * FROM etsy_dailysales WHERE storeid = "' . $storeid . '" AND '
+                    . 'date = STR_TO_DATE("'. $value->date .'", "%m/%d/%Y %H:%i:%s") ) LIMIT 1;';
+                //echo "<br/><br/>" . $totalSalesQuery;
+                $result = $conn->query($totalSalesQuery);
 
-            }
-            $limit++;
-            if($limit > 19){
-                //echo "<br/><br/>";
-                //echo $totalSalesQuery;
-                if ($conn->multi_query($totalSalesQuery)) {
-                    while($conn->more_results()) {
-                        $conn->next_result();
-                        if($res = $conn->store_result()) {
-                            $res->free(); 
-                        }
-                    }
-                } else {
-                    echo "<br/>Query did not run<br/><br/>";
-                    echo $conn->error;
-                }
-                $totalSalesQuery = "";
-                $limit = 0;
             }
         }
     }
@@ -70,30 +60,19 @@
         $limit = 0;
         foreach($items as $value){
             if( isset($value->storename) && isset($value->itemid) && isset($value->sold) && isset($value->date) ){
+                $query = 'SELECT storeid FROM etsy_stores WHERE storeName = "' . $value->storename . '";';
+                //echo "<br/><br/>" . $query;
+                $result = $conn->query($query);
+                $row = $result->fetch_array(MYSQLI_ASSOC);
+                $storeid = $row['storeid'];
+                $result->free(); 
                 
-                $itemSalesQuery .= 'INSERT IGNORE INTO etsy_items (storeid, itemid, sold, dateSold) '
-                    . 'SELECT storeid, "' . $value->itemid . '", "' . $value->sold . '", STR_TO_DATE("' . $value->date . '", "%m/%d/%Y %H:%i:%s")' 
-                    . ' FROM etsy_stores WHERE storeName = "' 
-                    . $value->storename . '" LIMIT 1;';
-
-            }
-            $limit++;
-            if($limit > 19){
-                echo "<br/><br/>";
-                echo $itemSalesQuery;
-                if ($conn->multi_query($itemSalesQuery)) {
-                    while($conn->more_results()) {
-                        $conn->next_result();
-                        if($res = $conn->store_result()) {
-                            $res->free(); 
-                        }
-                    }
-                } else {
-                    echo "<br/>Query did not run<br/><br/>";
-                    echo $conn->error;
-                }
-                $itemSalesQuery = "";
-                $limit = 0;
+                $itemSalesQuery = 'INSERT INTO etsy_items (storeid, itemid, sold, dateSold) SELECT "'
+                    . $storeid . '", "' . $value->itemid . '", "' . $value->sold . '", STR_TO_DATE("' . $value->date . '", "%m/%d/%Y %H:%i:%s") FROM etsy_items '
+                    . 'WHERE NOT EXISTS( SELECT * FROM etsy_items WHERE storeid = "' . $storeid . '" AND '
+                    . 'dateSold = STR_TO_DATE("'. $value->date .'", "%m/%d/%Y %H:%i:%s") AND itemid = "' . $value->itemid . '" ) LIMIT 1;';
+                //echo "<br/><br/>" . $itemSalesQuery;
+                $result = $conn->query($itemSalesQuery);
             }
         }
         

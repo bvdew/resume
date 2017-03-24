@@ -1,0 +1,3 @@
+//Get today's best selling items
+SELECT ei.itemid, ei.sold, ei.dateSold, es.storeName FROM `etsy_items` ei JOIN etsy_stores es ON es.storeid = ei.storeid WHERE dateSold > CURDATE() GROUP BY itemid ORDER BY sold desc
+

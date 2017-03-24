@@ -59,6 +59,7 @@ $(function(){
     .always(function () { });
 
     var storeInterval = setInterval(function(){
+        console.log( stores.length, dailySold.length, items.length )
         if(stores.length && dailySold.length && items.length){
             clearInterval(storeInterval);
             console.log(stores);
@@ -83,5 +84,5 @@ $(function(){
                 $(".status").append("<p>Make sure to delete the rows in the Google Sheet to avoid duplicate rows.");
             });
         }
-    }, 100)
+    }, 1000)
 });
