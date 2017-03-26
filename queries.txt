@@ -1,3 +1,21 @@
 //Get today's best selling items
-SELECT ei.itemid, ei.sold, ei.dateSold, es.storeName FROM `etsy_items` ei JOIN etsy_stores es ON es.storeid = ei.storeid WHERE dateSold > CURDATE() GROUP BY itemid ORDER BY sold desc
+SELECT ei.itemid, sum(ei.sold) as 'total sold', es.storeName FROM `etsy_items` ei JOIN etsy_stores es ON es.storeid = ei.storeid WHERE dateSold > CURDATE() GROUP BY itemid ORDER BY sum(ei.sold) desc
 
+//Get the week's best selling items
+SELECT ei.itemid, sum(ei.sold) as 'total sold', es.storeName FROM `etsy_items` ei JOIN etsy_stores es ON es.storeid = ei.storeid WHERE dateSold > DATE_SUB(CURDATE(), INTERVAL 7 DAY) GROUP BY itemid ORDER BY sum(ei.sold) desc
+
+//Get all time best selling items
+SELECT ei.itemid, sum(ei.sold) as 'total sold', es.storeName FROM `etsy_items` ei JOIN etsy_stores es ON es.storeid = ei.storeid GROUP BY itemid ORDER BY sum(ei.sold) desc
+
+//Get top selling stores
+SELECT max(ed.totalSales) as 'Total Sales', es.storeName, es.onlineSince FROM `etsy_dailysales` ed JOIN etsy_stores es ON es.storeid = ed.storeid GROUP BY es.storeName ORDER BY max(ed.totalSales) desc
+
+//Get stores who started this year
+SELECT max(ed.totalSales) as 'Total Sales', es.storeName, es.onlineSince FROM `etsy_dailysales` ed JOIN etsy_stores es ON es.storeid = ed.storeid WHERE es.onlineSince = '2017' GROUP BY es.storeName ORDER BY max(ed.totalSales) desc
+
+//Get daily sales  
+SELECT es.storeName, ed.date, ed.totalSales, ed2.date, ed2.totalSales, max(ed.totalSales - ed2.totalSales) as "Sold" FROM `etsy_dailysales` ed
+LEFT JOIN etsy_dailysales ed2 ON ed2.storeid = ed.storeid AND ed2.date > DATE_SUB(CURDATE(), INTERVAL 2 DAY) AND ed2.date < DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+LEFT JOIN etsy_stores es ON es.storeid = ed.storeid
+where ed.date > DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND ed.date < CURDATE()
+and ed.storeid = "12"

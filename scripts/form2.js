@@ -113,7 +113,7 @@ $(function () {
             tinyMCE.triggerSave();
             var description = $(this).find('textarea.description').val(),
                 endYear = "";
-            if ($(this).find("select.endMonth").val() != "Present") {
+            if ($(this).find("select.endMonth").val() != "present") {
                 endYear = $(this).find("select.endYear").val();
             }
             exp.push({
@@ -133,9 +133,9 @@ $(function () {
         var skills = $("#skills textarea").val();
         skills = skills.split(/\n/);
         data["skills"] = [];
-        $.each(skills, function () {
+        $.each(skills, function (k, s) {
             data["skills"].push({
-                "name": this
+                "name": s
             })
         });
         if (data["skills"].length) {
@@ -165,6 +165,9 @@ $(function () {
         });
         console.log(data);
 
+        exportDocx(data, "examples/Travis%20Brown/travis_brown-template.docx");
+        return true;
+
         //make sure the key max hasn't been reached and it was found
         //if(!keyMatch.maxReached && keyMatch.found){
         //get the filename
@@ -173,19 +176,19 @@ $(function () {
             method: "POST",
             data: { 'key': keyMatch.key },
         })
-            .done(function (filename) {
-                filename = $.trim(filename);
-                if (filename) {
-                    console.log(filename);
-                    //send it to the exporter
-                    exportDocx(data, "examples/" + filename);
-                } else {
-                    alert("No filename available");
-                }
-            })
-            .fail(function (result) {
-                console.log(result);
-            });
+        .done(function (filename) {
+            filename = $.trim(filename);
+            if (filename) {
+                console.log(filename);
+                //send it to the exporter
+                exportDocx(data, "examples/" + filename);
+            } else {
+                alert("No filename available");
+            }
+        })
+        .fail(function (result) {
+            console.log(result);
+        });
         /*} else {
             //export the demo template
             exportDocx(data, "examples/demo.docx");
