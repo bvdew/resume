@@ -1,5 +1,11 @@
 $(function () {
 
+    var keyMatch = {
+        "maxReached": false,
+        "found": true,
+        "key": ""
+    };
+
     $("div.tab-menu>div.list-group>a").click(function (e) {
         e.preventDefault();
         $(this).siblings('a.active').removeClass("active");
@@ -80,9 +86,9 @@ $(function () {
 
         //get contact info
         $("#contact input").each(function () {
-            var key = $(this).attr("id"),
+            var id = $(this).attr("id"),
                 value = $(this).val();
-            data[key] = value;
+            data[id] = value;
         });
         //get personal info
         data["personalStatement"] = $("#personal textarea").val();
@@ -107,7 +113,7 @@ $(function () {
             tinyMCE.triggerSave();
             var description = $(this).find('textarea.description').val(),
                 endYear = "";
-            if ($(this).find("select.endMonth").val() != "Present") {
+            if ($(this).find("select.endMonth").val() != "present") {
                 endYear = $(this).find("select.endYear").val();
             }
             exp.push({
@@ -124,7 +130,19 @@ $(function () {
         });
         data["experience"] = exp;
         //get skills
-        data["skills"] = $("#skills textarea").val();
+        var skills = $("#skills textarea").val();
+        skills = skills.split(/\n/);
+        data["skills"] = [];
+        $.each(skills, function (k, s) {
+            data["skills"].push({
+                "name": s
+            })
+        });
+        if (data["skills"].length) {
+            data["hasskills"] = true;
+        } else {
+            data["hasskills"] = false;
+        }
         //get references
         var ref = [];
         $("#references .reference-group").each(function () {
@@ -138,66 +156,149 @@ $(function () {
         });
         data["references"] = ref;
 
+        $.each(data, function (id, value) {
+            if (value != "" || value != 0) {
+                data["has" + id] = true;
+            } else {
+                data["has" + id] = false;
+            }
+        });
         console.log(data);
 
+        exportDocx(data, "examples/Travis%20Brown/travis_brown-template.docx");
+        return true;
+
         //make sure the key max hasn't been reached and it was found
-        if(!keyMatch.maxReached && keyMatch.found){
-            //get the filename
-            $.ajax({
-                url: "getFile.php",
-                method: "POST",
-                data: { 'key': key},
-            })
-            .done(function(filename){
-                filename = $.trim(filename);
-                if(filename){
-                    console.log(filename);
-                    //send it to the exporter
-                    exportDocx(data, "examples/" + filename);
-                } else {
-                    alert("No filename available");
-                }
-            })
-            .fail(function(result){
-                console.log(result);
-            });
-        } else {
-            exportDocx(data, "examples/basic-template2.docx");
-        }
+        //if(!keyMatch.maxReached && keyMatch.found){
+        //get the filename
+        $.ajax({
+            url: "getFile.php",
+            method: "POST",
+            data: { 'key': keyMatch.key },
+        })
+        .done(function (filename) {
+            filename = $.trim(filename);
+            if (filename) {
+                console.log(filename);
+                //send it to the exporter
+                exportDocx(data, "examples/" + filename);
+            } else {
+                alert("No filename available");
+            }
+        })
+        .fail(function (result) {
+            console.log(result);
+        });
+        /*} else {
+            //export the demo template
+            exportDocx(data, "examples/demo.docx");
+        }*/
 
     });
 
-    var keyMatch = {
-            "maxReached": false,
-            "found": true
-        };
-    var checkDownloads = function(){
-        if( key != undefined){
+    var showFields = function (f) {
+        console.log("showFields");
+        $.each(f, function (key, value) {
+            console.log(key, value, $("input#" + key).length);
+            if ($("#contact input#" + key).length > 0) {
+                if (value == 0) {
+                    $("#contact input#" + key).closest(".form-group").remove();
+                }
+            }
+            //personal statement
+            if (key == "personalStatement" && value == 0) {
+                $("textarea#personalStatement").prop("disabled", true).val("The personal statement is not part of this template.");
+                $("#personal p").html("The personal statement is not part of this template.");
+            }
+
+            //education
+            if (key == "education_group" && value == 0) {
+                $("#education .education-group").remove();
+                $("#education .add-education").remove();
+                $("#education p").html("The education group is not part of this template.");
+            }
+
+            //experience
+            if (key == "experience_group" && value == 0) {
+                $("#experience .experience-group").remove();
+                $("#experience .add-experience").remove();
+                $("#experience p").html("The experience group is not part of this template.");
+            }
+
+            //skills
+            if (key == "skills" && value == 0) {
+                $("textarea#skills").prop("disabled", true).val("The skills section is not part of this template.");
+                $("#skills p").html("The skills section is not part of this template.");
+            }
+
+            //references
+            if (key == "references_group" && value == 0) {
+                $("#references .reference-group").remove();
+                $("#references .add-reference").remove();
+                $("#references p").html("The references group is not part of this template.");
+            }
+        })
+    }
+
+    var getFields = function () {
+        console.log("getFields")
+        //if( !keyMatch.maxReached && keyMatch.found ){
+        //get the fields
+        $.ajax({
+            url: "getFields.php",
+            method: "POST",
+            data: { 'key': keyMatch.key },
+        })
+            .done(function (result) {
+                var data = $.parseJSON(result);
+                console.log(data);
+                if (data.length > 0) {
+                    showFields(data[0]);
+                } else {
+                    alert("Something went wrong. Please try again later.");
+                }
+            })
+            .fail(function (result) {
+                console.log(result);
+            });
+        /*} else {
+            keyMatch.found = false;
+        }*/
+    }
+
+    var checkDownloads = function () {
+        console.log("Key: " + keyMatch.key);
+        if (keyMatch.key != undefined) {
             //get the filename
             $.ajax({
                 url: "getKey.php",
                 method: "POST",
-                data: { 'key': key },
+                data: { 'key': keyMatch.key },
             })
-            .done(function(result){
-                console.log(result);
-                if(result > 100){
-                    alert("This key has expired (max download limit reached). You may continue to fill out the form and download the sample template.");
-                    keyMatch.maxReached = true;
-                } else if( result == "" ) {
-                    alert("This key could not be found. You may continue to fill out the form and download the sample template.");
-                    keyMatch.found = false;
-                }
-            })
-            .fail(function(result){
-                console.log(result);
-            });
+                .done(function (result) {
+                    console.log(result);
+                    if (result > 100) {
+                        alert("This key has expired (max download limit reached). You may continue to fill out the form and download the sample template.");
+                        keyMatch.maxReached = true;
+                    } else if (result == "") {
+                        alert("This key could not be found. You may continue to fill out the form and download the sample template.");
+                        keyMatch.found = false;
+                    }
+                })
+                .fail(function (result) {
+                    console.log(result);
+                })
+                .always(function () {
+                    getFields();
+                });
         } else {
             keyMatch.found = false;
+            keyMatch.key = "abc123";
+            getFields();
         }
     }
 
-    var key = getUrlVars()["key"];
+    keyMatch.key = getUrlVars()["key"];
     checkDownloads();
 
     function getUrlVars() {
@@ -207,11 +308,12 @@ $(function () {
             hash = hashes[i].split('=');
             vars.push(hash[0]);
             var value = hash[1];
-            if(value != undefined){
+            if (value != undefined) {
                 value.replace(/#/g, '');
             }
             vars[hash[0]] = value;
         }
         return vars;
     }
+
 })

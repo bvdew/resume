@@ -1,0 +1,14 @@
+{
+  "firstName": "Brian",
+  "lastName": "VanDeWiel",
+  "address1": "864 Mallinger Dr",
+  "address2": "Address 2",
+  "city": "Port Washington",
+  "email": "bvandewiel@msn.com",
+  "personalStatement": "This is a personal statement.",
+  "phone": "262.202.5462",
+  "state": "WI",
+  "title": "Web Developer",
+  "website": "brianvandewiel.com",
+  "zip": "53074"
+}
