@@ -69,22 +69,20 @@ $(function () {
                 stores[this.store].push({
                     "date": this.date,
                     "store": this.store,
-                    "totalSales": this.totalSales,
-                    "sold": this.sold
+                    "totalSales": this.totalsales
                 });
                 if ($.inArray(moment(this.date).format("MMMM DD, YYYY"), dates) < 0) {
                     dates.push(moment(this.date).format("MMMM DD, YYYY"));
                 }
             });
             var row = [];
-            row.push("<option>Select a Store</option>");
 
             for (var key in stores) {
                 if (stores.hasOwnProperty(key)) {
                     row.push("<option>" + key + "</option>");
                 }
             }
-            $("select#selectShop").empty().append(row.join(""));
+            $("select#selectShop").empty().append(row.join("")).val(0);
 
             var my_options = $("select#selectShop option");
 
@@ -94,7 +92,7 @@ $(function () {
                 return 0
             })
 
-            $("select#selectShop").empty().append(my_options);
+            $("select#selectShop").empty().append("<option value='0'>Select a Store</option>").append(my_options).val("0");
 
             row = [];
             $.each(dates, function () {
@@ -157,10 +155,15 @@ $(function () {
     var printReport = function (data, bS) {
         var row = [],
             soldCount,
-            rowId = 0;
+            rowId = 0,
+            previousSold = data[0].totalSales;
+
+            console.log(data);
 
         $(data).each(function () {
-            row.push('<tr data-toggle="collapse" data-target="#accordion' + rowId + '" class="clickable"><td>' + this.date + "</td><td>" + this.totalSales.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + "</td><td>" + this.sold + "</td><td>$" + (this.sold * 13.5) + "</td></tr>");
+            var dailySold = this.totalSales - previousSold;
+            this.sold = dailySold;
+            row.push('<tr data-toggle="collapse" data-target="#accordion' + rowId + '" class="clickable"><td>' + this.date + "</td><td>" + this.totalSales.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + "</td><td>" + dailySold + "</td><td>$" + (dailySold * 13.5) + "</td></tr>");
             row.push('<tr id="accordion' + rowId + '" class="collapse"><td colspan="3"><table class="table table-hover table-inverse"><thead><tr><th>Item</th><th>No. Sold</th><th>URL</th></tr></thead><tbody>');
 
             soldCount = 0;
@@ -172,6 +175,7 @@ $(function () {
 
             row.push('</tbody></table></td></tr>')
 
+            previousSold = this.totalSales;
             rowId++;
         });
         $("tbody").empty().append(row.join(""));
@@ -338,6 +342,7 @@ $(function () {
     };
 
     var createComparisons = function (date) {
+        console.log(stores);
         var d = [];
         $.each(stores, function () {
             $.each(this, function () {
