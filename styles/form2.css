@@ -131,3 +131,12 @@ textarea {
 .mce-notification {
   display: none !important;
 }
+
+@media screen and (max-width: 414px){
+  a.list-group-item {
+    font-size: 0;
+  }
+  .wrapper {
+    width: 95%;
+  }
+}
