@@ -16,7 +16,17 @@ $(function () {
     });
 
     $(".btn-next").click(function (e) {
-        $("div.tab-menu>div.list-group>a").eq($(this).attr("data-target")).trigger("click");
+        //get active tab
+        var tab = $("div.list-group a.active");
+        $("div.list-group a").removeClass("active");
+        $(tab).next().trigger("click");
+    });
+
+    $(".btn-prev").click(function (e) {
+        //get active tab
+        var tab = $("div.list-group a.active");
+        $("div.list-group a").removeClass("active");
+        $(tab).prev().trigger("click");
     });
 
     //get education years
@@ -40,27 +50,29 @@ $(function () {
         var newGroup = $(experienceGroup).clone().appendTo(".experience-placeholder");
         //clear out the previous values
         $(newGroup).find("input").val("");
-        $(newGroup).find("textarea").val("");
         $(newGroup).find("select").val("0");
+        $(newGroup).find(".mce-tinymce").remove();
+        $(newGroup).find("textarea.description").remove();
+        $(newGroup).find(".editorPlacholder").append('<textarea class="description" rows="5" cols="80"></textarea>')
         //initialize the html editor
         tinymce.init({
-            selector: '.experience-group textarea',
+            selector: ".experience-group textarea.description",
             height: 200,
             menubar: false,
             plugins: [
                 'lists paste'
             ],
-            toolbar: 'undo redo | bold italic underline | bullist numlist outdent indent'
+            toolbar: 'undo redo'
         });
     });
     tinymce.init({
-        selector: '.experience-group textarea',
+        selector: '.experience-group textarea.description',
         height: 200,
         menubar: false,
         plugins: [
             'lists paste'
         ],
-        toolbar: 'undo redo | bold italic underline | bullist numlist outdent indent'
+        toolbar: 'undo redo'
     });
     //present job doesn't need year
     $("select.endMonth").on("change", function () {
@@ -80,7 +92,10 @@ $(function () {
         $(newGroup).find("select").val("0");
     });
 
-    //export resume to .docx
+
+    /*****************************
+     * EXPORT DATA TO RESUME
+     *****************************/
     $(document).on("click", "#exportDocx", function () {
         var data = {};
 
@@ -90,43 +105,74 @@ $(function () {
                 value = $(this).val();
             data[id] = value;
         });
+
+        //get first initial
+        if ($("input#firstName").val() != "") {
+            data['fI'] = $("input#firstName").val().substring(1);
+            data['hasfI'] = true;
+        } else {
+            data['hasfI'] = false;
+        }
+
         //get personal info
         data["personalStatement"] = $("#personal textarea").val();
         //get education
         var eds = [];
         $("#education .education-group").each(function () {
-            eds.push({
-                "institute": $(this).find("input.institute").val(),
-                "city": $(this).find("input.city").val(),
-                "state": $(this).find("input.state").val(),
-                "startMonth": $(this).find("select.startMonth").val(),
-                "startYear": $(this).find("select.startYear").val(),
-                "endMonth": $(this).find("select.endMonth").val(),
-                "endYear": $(this).find("select.endYear").val(),
-                "course": $(this).find("input.course").val()
-            });
+            if ($(this).find("input.course").val() != "" ||
+                $(this).find("input.institute").val() != "") {
+                eds.push({
+                    "institute": $(this).find("input.institute").val(),
+                    "city": $(this).find("input.city").val(),
+                    "state": $(this).find("input.state").val(),
+                    "startMonth": $(this).find("select.startMonth").val(),
+                    "startYear": $(this).find("select.startYear").val(),
+                    "endMonth": $(this).find("select.endMonth").val(),
+                    "endYear": $(this).find("select.endYear").val(),
+                    "course": $(this).find("input.course").val()
+                });
+            }
         });
         data["education"] = eds;
         //get experience
         var exp = [];
+        tinyMCE.triggerSave();
         $("#experience .experience-group").each(function () {
-            tinyMCE.triggerSave();
+            console.log("found experience")
             var description = $(this).find('textarea.description').val(),
                 endYear = "";
+
             if ($(this).find("select.endMonth").val() != "present") {
                 endYear = $(this).find("select.endYear").val();
             }
-            exp.push({
-                "company": $(this).find("input.company").val(),
-                "city": $(this).find("input.city").val(),
-                "state": $(this).find("input.state").val(),
-                "position": $(this).find("input.position").val(),
-                "startMonth": $(this).find("select.startMonth").val(),
-                "startYear": $(this).find("select.startYear").val(),
-                "endMonth": $(this).find("select.endMonth").val(),
-                "endYear": endYear,
-                "description": description
-            });
+            if ($(this).find("input.company").val() != "" ||
+                $(this).find("input.position").val() != "" ||
+                description != "") {
+
+                console.log(description);
+                if(description != ""){
+                    /*var descriptionDocx = convertContent($(description)[0]);
+                    console.log(descriptionDocx);
+                    description = descriptionDocx.string.replace("<w:body>", "").replace("</w:body>", "");
+                    console.log(description);*/
+
+                    var descriptionDocx = htmlDocx.asBlob(description);
+                    saveAs(descriptionDocx, 'test.docx');
+                    console.log(descriptionDocx);
+                }
+
+                exp.push({
+                    "company": $(this).find("input.company").val(),
+                    "city": $(this).find("input.city").val(),
+                    "state": $(this).find("input.state").val(),
+                    "position": $(this).find("input.position").val(),
+                    "startMonth": $(this).find("select.startMonth").val() == 0 ? "" : $(this).find("select.startMonth").val(),
+                    "startYear": $(this).find("select.startYear").val() == 0 ? "" : $(this).find("select.startYear").val(),
+                    "endMonth": $(this).find("select.endMonth").val() == 0 ? "" : $(this).find("select.endMonth").val(),
+                    "endYear": endYear == 0 ? "" : endYear,
+                    "description": description
+                });
+            }
         });
         data["experience"] = exp;
         //get skills
@@ -134,15 +180,59 @@ $(function () {
         skills = skills.split(/\n/);
         data["skills"] = [];
         $.each(skills, function (k, s) {
-            data["skills"].push({
-                "name": s
-            })
+            if (s != "") {
+                data["skills"].push({
+                    "name": s
+                })
+            }
         });
         if (data["skills"].length) {
             data["hasskills"] = true;
         } else {
             data["hasskills"] = false;
         }
+
+        //get certifications
+        var certifications = $("#certifications textarea").val();
+        certifications = certifications.split(/\n/);
+        data["certifications"] = [];
+        $.each(certifications, function (k, s) {
+            if (s != "") {
+                data["certifications"].push({
+                    "name": s
+                })
+            }
+        });
+        if (data["certifications"].length) {
+            data["hascertifications"] = true;
+        } else {
+            data["hascertifications"] = false;
+        }
+
+        //get trainings
+        var trainings = [];
+        $("#training .training-group").each(function () {
+            if ($(this).find("input.course").val() != "" ||
+                $(this).find("input.institute").val() != "") {
+                trainings.push({
+                    "institute": $(this).find("input.institute").val(),
+                    "city": $(this).find("input.city").val(),
+                    "state": $(this).find("input.state").val(),
+                    "startMonth": $(this).find("select.startMonth").val(),
+                    "startYear": $(this).find("select.startYear").val(),
+                    "endMonth": $(this).find("select.endMonth").val(),
+                    "endYear": $(this).find("select.endYear").val(),
+                    "course": $(this).find("input.course").val()
+                });
+            }
+        });
+        data["training"] = trainings;
+        if (data["training"].length) {
+            data["hastraining"] = true;
+        } else {
+            data["hastraining"] = false;
+        }
+
         //get references
         var ref = [];
         $("#references .reference-group").each(function () {
@@ -176,19 +266,19 @@ $(function () {
             method: "POST",
             data: { 'key': keyMatch.key },
         })
-        .done(function (filename) {
-            filename = $.trim(filename);
-            if (filename) {
-                console.log(filename);
-                //send it to the exporter
-                exportDocx(data, "examples/" + filename);
-            } else {
-                alert("No filename available");
-            }
-        })
-        .fail(function (result) {
-            console.log(result);
-        });
+            .done(function (filename) {
+                filename = $.trim(filename);
+                if (filename) {
+                    console.log(filename);
+                    //send it to the exporter
+                    exportDocx(data, "examples/" + filename);
+                } else {
+                    alert("No filename available");
+                }
+            })
+            .fail(function (result) {
+                console.log(result);
+            });
         /*} else {
             //export the demo template
             exportDocx(data, "examples/demo.docx");
@@ -199,7 +289,7 @@ $(function () {
     var showFields = function (f) {
         console.log("showFields");
         $.each(f, function (key, value) {
-            console.log(key, value, $("input#" + key).length);
+            console.log(key + ": " + value);
             if ($("#contact input#" + key).length > 0) {
                 if (value == 0) {
                     $("#contact input#" + key).closest(".form-group").remove();

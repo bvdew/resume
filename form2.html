@@ -33,6 +33,12 @@
                                 <h4 class="glyphicon glyphicon-check"></h4><br/>Skills
                             </a>
                             <a href="#" class="list-group-item text-center">
+                                <h4 class="glyphicon glyphicon-certificate"></h4><br/>Certifications
+                            </a>
+                            <a href="#" class="list-group-item text-center">
+                                <h4 class="glyphicon glyphicon-apple"></h4><br/>Trainings
+                            </a>
+                            <a href="#" class="list-group-item text-center">
                                 <h4 class="glyphicon glyphicon-user"></h4><br/>References
                             </a>
                             <a href="#" class="list-group-item text-center">
@@ -142,8 +148,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="0">Previous</button>
-                                            <button class="text-center btn btn-next" data-target="2">Next</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
                                         </div>
                                     </div>
                                 </div>
@@ -172,8 +178,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="1">Previous</button>
-                                            <button class="text-center btn btn-next" data-target="3">Next</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
                                         </div>
                                     </div>
 
@@ -275,8 +281,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="2">Previous</button>
-                                            <button class="text-center btn btn-next" data-target="4">Next</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
                                         </div>
                                     </div>
                                 </div>
@@ -371,7 +377,7 @@
                                         </div>
                                         <div class="row form-group">
                                             <label for="description" class="col-sm-2 col-form-label">Description</label>
-                                            <div class="col-sm-10">
+                                            <div class="col-sm-10 editorPlacholder">
                                                 <textarea class="description" rows="5" cols="80"></textarea>
                                             </div>
                                         </div>
@@ -384,8 +390,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="3">Previous</button>
-                                            <button class="text-center btn btn-next" data-target="5">Next</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
                                         </div>
                                     </div>
                                 </div>
@@ -408,15 +414,142 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="4">Previous</button>
-                                            <button class="text-center btn btn-next" data-target="6">Next</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                        <!-- personal staement section -->
+                        <!-- certificates section -->
+                        <div class="tab-content" id="certifications">
+                            <div class="row">
+                                <h1 class="col-xs-12 text-center">Certifications</h1>
+                            </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">Add your certifications by typing in the text area below. One certification per line.</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 ">
+                                            <textarea id="certification" rows="10" cols="90"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- training section -->
+                        <div class="tab-content" id="training">
+                            <div class="row">
+                                <h1 class="col-xs-12 text-center">Trainings</h1>
+                            </div>
+                            <div class="row">
+                                <div class="wrapper">
+                                    <div class="row">
+                                        <p class="col-xs-12">To add more trainings, click the '+' button to add more rows.</p>
+                                    </div>
+
+                                    <div class="training-group">
+                                        <div class="row form-group">
+                                            <label for="institute" class="col-sm-2 col-form-label">Institute</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="institute" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="city" class="col-sm-2 col-form-label">City</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="city" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="state" class="col-sm-2 col-form-label">State</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="state" />
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="startMonth" class="col-sm-2 col-form-label">Dates</label>
+                                            <div class="col-sm-2">
+                                                <select class="startMonth">
+                                                    <option value="0">Start Month</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="startYear years">
+                                                    <option value="0">Start Year</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1 text-center">
+                                                to
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="endMonth">
+                                                    <option value="0">End Month</option>
+                                                    <option value="January">January</option>
+                                                    <option value="February">February</option>
+                                                    <option value="March">March</option>
+                                                    <option value="April">April</option>
+                                                    <option value="May">May</option>
+                                                    <option value="June">June</option>
+                                                    <option value="July">July</option>
+                                                    <option value="August">August</option>
+                                                    <option value="September">September</option>
+                                                    <option value="October">October</option>
+                                                    <option value="November">November</option>
+                                                    <option value="December">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="endYear years">
+                                                    <option value="0">End Year</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="course" class="col-sm-2 col-form-label">Course Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="course" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="training-placeholder"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center">
+                                            <button type="button" class="btn btn-secondary add-education">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- references section -->
                         <div class="tab-content" id="references">
                             <div class="row">
                                 <h1 class="col-xs-12 text-center">References</h1>
@@ -468,8 +601,8 @@
 
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="5">Previous</button>
-                                            <button class="text-center btn btn-next" data-target="7">Next</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
+                                            <button class="text-center btn btn-next">Next</button>
                                         </div>
                                     </div>
                                 </div>
@@ -497,7 +630,7 @@
 
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <button class="text-center btn btn-next" data-target="6">Previous</button>
+                                            <button class="text-center btn btn-prev">Previous</button>
                                         </div>
                                     </div>
                                 </div>
@@ -510,6 +643,7 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script src="scripts/bootstrap.min.js"></script>
+        <script type="text/javascript" src="scripts/html-docx.js"></script>
         <script src="scripts/docxtemplater-latest.min.js"></script>
         <script src="scripts/jszip.min.js"></script>
         <script src="scripts/file-saver.min.js"></script>

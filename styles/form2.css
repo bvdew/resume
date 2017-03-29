@@ -88,7 +88,7 @@ h1 {
     width: 85%;
 }
 
-.btn.btn-next {
+.btn.btn-next, .btn.btn-prev {
     background-color: #078b7f;
     color: #FFF;
     transition: all 0.2s;
@@ -96,7 +96,10 @@ h1 {
 
 .btn-next:hover,
 .btn-next:active,
-.btn-next:focus {
+.btn-next:focus,
+.btn-prev:hover,
+.btn-prev:active,
+.btn-prev:focus {
     background-color: #00695C;
     color: #FFF !important;
     outline: none;
@@ -117,6 +120,7 @@ input {
 
 textarea {
   margin: 20px 0;
+  width: 100%;
 }
 
 .export-btn {
