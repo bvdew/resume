@@ -60,9 +60,9 @@ $(function () {
             height: 200,
             menubar: false,
             plugins: [
-                'lists paste'
+                'lists paste preview wordcount fullscreen paste '
             ],
-            toolbar: 'undo redo'
+            toolbar: 'undo redo | bold italic | bullist numlist'
         });
     });
     tinymce.init({
@@ -70,9 +70,9 @@ $(function () {
         height: 200,
         menubar: false,
         plugins: [
-            'lists paste'
-        ],
-        toolbar: 'undo redo'
+                'lists paste preview wordcount fullscreen paste '
+            ],
+            toolbar: 'undo redo | bold italic | bullist numlist'
     });
     //present job doesn't need year
     $("select.endMonth").on("change", function () {
@@ -151,14 +151,24 @@ $(function () {
 
                 console.log(description);
                 if(description != ""){
-                    /*var descriptionDocx = convertContent($(description)[0]);
-                    console.log(descriptionDocx);
-                    description = descriptionDocx.string.replace("<w:body>", "").replace("</w:body>", "");
-                    console.log(description);*/
+                    description = description.replace(/\r?\n|\r/g, '');
+                    console.log(description);
+                    console.log($(description).length)
+                    var descriptionArray = [];
+                    for (var i = 0; i < $(description).length; i++){
+                        console.log($(description)[i])
+                        var descriptionDocx = convertContent($(description)[i]);
+                        console.log(descriptionDocx);
+                        descriptionArray.push( descriptionDocx.string ); //.replace("<w:body>", "").replace("</w:body>", "").replace("<w:body/>", "") );
+                    }
 
-                    var descriptionDocx = htmlDocx.asBlob(description);
-                    saveAs(descriptionDocx, 'test.docx');
-                    console.log(descriptionDocx);
+                    description = descriptionArray.join("");
+
+                    console.log(description);
+
+                    /*var converted = htmlDocx.asBlob(description);
+                    console.log(converted);
+                    saveAs(converted, 'test.docx');*/
                 }
 
                 exp.push({
