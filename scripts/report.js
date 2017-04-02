@@ -163,7 +163,7 @@ $(function () {
         $(data).each(function () {
             var dailySold = this.totalSales - previousSold;
             this.sold = dailySold;
-            row.push('<tr data-toggle="collapse" data-target="#accordion' + rowId + '" class="clickable"><td>' + this.date + "</td><td>" + this.totalSales.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + "</td><td>" + dailySold + "</td><td>$" + (dailySold * 13.5) + "</td></tr>");
+            row.push('<tr data-toggle="collapse" data-target="#accordion' + rowId + '" class="clickable"><td>' + this.date + "</td><td>" + this.totalSales.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,") + "</td><td>" + dailySold + "</td><td>$" + (dailySold * 10.62) + "- $" + (dailySold * 13.5) + "</td></tr>");
             row.push('<tr id="accordion' + rowId + '" class="collapse"><td colspan="3"><table class="table table-hover table-inverse"><thead><tr><th>Item</th><th>No. Sold</th><th>URL</th></tr></thead><tbody>');
 
             soldCount = 0;
@@ -212,6 +212,7 @@ $(function () {
 
         var salesDiff = e.totalSales - f.totalSales,
             profit = 13.5 * salesDiff,
+            profit2 = 10.62 * salesDiff,
             now = moment(e.date),
             end = moment(f.date),
             duration = moment.duration(now.diff(end)),
@@ -219,14 +220,17 @@ $(function () {
 
         $("p.sinceYear").text("Online Since: " + e.sinceYear);
         $("p.soldDaily").text("Sold Daily: " + Math.floor((salesDiff / days)));
-        $("p.dailySales").text("Daily Sales: $" + parseFloat((profit / days), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-        $("p.weeklySales").text("Weekly Sales: $" + parseFloat(((profit / days) * 7), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-        var mo = ((profit / days) * 365) / 12;
-        $("p.monthlySales").text("Monthly Sales: $" + parseFloat(mo, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-        var yr = (profit / days) * 365;
-        $("p.yearlySales").text("Yearly Sales: $" + parseFloat(yr, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
-        var all = e.totalSales * 13.5;
-        $("p.allTimeSales").text("All Time Sales: $" + parseFloat(all, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        $("p.dailySales").text("Daily Sales: $" + parseFloat((profit2 / days), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString() +" - $" + parseFloat((profit / days), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        $("p.weeklySales").text("Weekly Sales: $" + parseFloat(((profit2 / days) * 7), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString() + " - $" + parseFloat(((profit / days) * 7), 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var mo = ((profit / days) * 365) / 12,
+            mo2 = ((profit2 / days) * 365) / 12;
+        $("p.monthlySales").text("Monthly Sales: $" + parseFloat(mo2, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString() + " - $" + parseFloat(mo, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var yr = (profit / days) * 365,
+            yr2 = (profit2 / days) * 365;
+        $("p.yearlySales").text("Yearly Sales: $" + parseFloat(yr2, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString() + " - $" + parseFloat(yr, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+        var all = e.totalSales * 13.5,
+            all2 = e.totalSales * 10.62;
+        $("p.allTimeSales").text("All Time Sales: $" + parseFloat(all2, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString() + " - $" + parseFloat(all, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
     };
 
     var printTS = function (data) {

@@ -98,158 +98,15 @@ $(function () {
      *****************************/
     $(document).on("click", "#exportDocx", function () {
         var data = {};
+        data = formToObject();
 
-        //get contact info
-        $("#contact input").each(function () {
-            var id = $(this).attr("id"),
-                value = $(this).val();
-            data[id] = value;
-        });
-
-        //get first initial
-        if ($("input#firstName").val() != "") {
-            data['fI'] = $("input#firstName").val().substring(1);
-            data['hasfI'] = true;
-        } else {
-            data['hasfI'] = false;
-        }
-
-        //get personal info
-        data["personalStatement"] = $("#personal textarea").val();
-        //get education
-        var eds = [];
-        $("#education .education-group").each(function () {
-            if ($(this).find("input.course").val() != "" ||
-                $(this).find("input.institute").val() != "") {
-                eds.push({
-                    "institute": $(this).find("input.institute").val(),
-                    "city": $(this).find("input.city").val(),
-                    "state": $(this).find("input.state").val(),
-                    "startMonth": $(this).find("select.startMonth").val(),
-                    "startYear": $(this).find("select.startYear").val(),
-                    "endMonth": $(this).find("select.endMonth").val(),
-                    "endYear": $(this).find("select.endYear").val(),
-                    "course": $(this).find("input.course").val()
-                });
-            }
-        });
-        data["education"] = eds;
-        //get experience
-        var exp = [];
-        tinyMCE.triggerSave();
-        $("#experience .experience-group").each(function () {
-            console.log("found experience")
-            var description = $(this).find('textarea.description').val(),
-                endYear = "";
-
-            if ($(this).find("select.endMonth").val() != "present") {
-                endYear = $(this).find("select.endYear").val();
-            }
-            if ($(this).find("input.company").val() != "" ||
-                $(this).find("input.position").val() != "" ||
-                description != "") {
-
-                console.log(description);
-
-                exp.push({
-                    "company": $(this).find("input.company").val(),
-                    "city": $(this).find("input.city").val(),
-                    "state": $(this).find("input.state").val(),
-                    "position": $(this).find("input.position").val(),
-                    "startMonth": $(this).find("select.startMonth").val() == 0 ? "" : $(this).find("select.startMonth").val(),
-                    "startYear": $(this).find("select.startYear").val() == 0 ? "" : $(this).find("select.startYear").val(),
-                    "endMonth": $(this).find("select.endMonth").val() == 0 ? "" : $(this).find("select.endMonth").val(),
-                    "endYear": endYear == 0 ? "" : endYear,
-                    "description": description
-                });
-            }
-        });
-        data["experience"] = exp;
-        //get skills
-        var skills = $("#skills textarea").val();
-        skills = skills.split(/\n/);
-        data["skills"] = [];
-        $.each(skills, function (k, s) {
-            if (s != "") {
-                data["skills"].push({
-                    "name": s
-                })
-            }
-        });
-        if (data["skills"].length) {
-            data["hasskills"] = true;
-        } else {
-            data["hasskills"] = false;
-        }
-
-        //get certifications
-        var certifications = $("#certifications textarea").val();
-        certifications = certifications.split(/\n/);
-        data["certifications"] = [];
-        $.each(certifications, function (k, s) {
-            if (s != "") {
-                data["certifications"].push({
-                    "name": s
-                })
-            }
-        });
-        if (data["certifications"].length) {
-            data["hascertifications"] = true;
-        } else {
-            data["hascertifications"] = false;
-        }
-
-        //get trainings
-        var trainings = [];
-        $("#training .training-group").each(function () {
-            if ($(this).find("input.course").val() != "" ||
-                $(this).find("input.institute").val() != "") {
-                trainings.push({
-                    "institute": $(this).find("input.institute").val(),
-                    "city": $(this).find("input.city").val(),
-                    "state": $(this).find("input.state").val(),
-                    "startMonth": $(this).find("select.startMonth").val(),
-                    "startYear": $(this).find("select.startYear").val(),
-                    "endMonth": $(this).find("select.endMonth").val(),
-                    "endYear": $(this).find("select.endYear").val(),
-                    "course": $(this).find("input.course").val()
-                });
-            }
-        });
-        data["training"] = trainings;
-        if (data["training"].length) {
-            data["hastraining"] = true;
-        } else {
-            data["hastraining"] = false;
-        }
-
-        //get references
-        var ref = [];
-        $("#references .reference-group").each(function () {
-            ref.push({
-                "name": $(this).find("input.name").val(),
-                "position": $(this).find("input.position").val(),
-                "company": $(this).find("input.company").val(),
-                "phone": $(this).find("input.phone").val(),
-                "email": $(this).find("input.email").val()
-            });
-        });
-        data["references"] = ref;
-
-        $.each(data, function (id, value) {
-            if (value != "" || value != 0) {
-                data["has" + id] = true;
-            } else {
-                data["has" + id] = false;
-            }
-        });
         console.log(data);
 
         //send data to the docx creator
         $.ajax({
             url: "createWord.php",
             method: "POST",
-            data: { 'data': data },
+            data: { 'data': JSON.stringify(data) },
         })
         .done(function (result) {
             
@@ -258,20 +115,17 @@ $(function () {
             console.log(result);
         });
 
-
-
-        return true;
-        exportDocx(data, "examples/Travis%20Brown/travis_brown-template.docx");
+        //@TODO FOR TESTING
+        return false;
         
-
         //make sure the key max hasn't been reached and it was found
-        //if(!keyMatch.maxReached && keyMatch.found){
-        //get the filename
-        $.ajax({
-            url: "getFile.php",
-            method: "POST",
-            data: { 'key': keyMatch.key },
-        })
+        if(!keyMatch.maxReached && keyMatch.found){
+            //get the filename
+            $.ajax({
+                url: "getFile.php",
+                method: "POST",
+                data: { 'key': keyMatch.key },
+            })
             .done(function (filename) {
                 filename = $.trim(filename);
                 if (filename) {
@@ -285,10 +139,10 @@ $(function () {
             .fail(function (result) {
                 console.log(result);
             });
-        /*} else {
+        } else {
             //export the demo template
             exportDocx(data, "examples/demo.docx");
-        }*/
+        }
 
     });
 

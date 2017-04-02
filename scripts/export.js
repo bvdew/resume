@@ -31,6 +31,6 @@ function exportDocx(data, filePath) {
             type: "blob",
             mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         }) //Output the document using Data-URI
-        saveAs(out, "output.docx")
+        saveAs(out, "resume.docx")
     })
 }

@@ -1,24 +1,23 @@
 <?php
     require 'dblogin.php';
 
-    $stores = json_decode($_POST['stores']);
-    $dailySold = json_decode($_POST['dailySold']);
-    $items = json_decode($_POST['itemsSold']);
+    $stores = $_POST['stores'];
+    $items = $_POST['itemsSold'];
+    $stores = json_decode($stores);
 
     //INSERT STORES
     $storeQuery = "";
 
     if(sizeof($stores) > 0){
-        foreach($stores as $value){
-            if( isset($value->storename) && isset($value->year) ){
+        foreach($stores as $storename => $value){
+            if( isset($value->year) ){
                 $storeQuery .= 'INSERT INTO etsy_stores (storeName, dateAdded, onlineSince) SELECT "'
-                    . $value->storename . '", NOW(), "' . $value->year . '" FROM etsy_stores '
-                    . 'WHERE NOT EXISTS( SELECT storeName FROM etsy_stores WHERE storeName = "' . $value->storename . '" ) LIMIT 1;';
+                    . $storename . '", NOW(), "' . $value->year . '" FROM etsy_stores '
+                    . 'WHERE NOT EXISTS( SELECT storeName FROM etsy_stores WHERE storeName = "' . $storename . '" ) LIMIT 1;';
             }
         }
-        //echo $storeQuery;
         if ($conn->multi_query($storeQuery) === TRUE) {
-            echo "New records created successfully";
+            echo "<br/>New records created successfully";
             while($conn->more_results()) {
                 $conn->next_result();
                 if($res = $conn->store_result()) {
@@ -32,11 +31,13 @@
 
     //INSERT DAILY SALES
     $totalSalesQuery = "";
-    if(sizeof($dailySold) > 0){
+    if(sizeof($stores) > 0){
         $limit = 0;
-        foreach($dailySold as $value){
-            if( isset($value->storename) && isset($value->date) && isset($value->totalSales) ){
-                $query = 'SELECT storeid FROM etsy_stores WHERE storeName = "' . $value->storename . '";';
+        foreach($stores as $storename => $value){
+            echo "<br/>".$storename;
+            print_r($value);
+            if( isset($value->sales) ){
+                $query = 'SELECT storeid FROM etsy_stores WHERE storeName = "' . $storename . '";';
                 //echo "<br/><br/>" . $query;
                 $result = $conn->query($query);
                 $row = $result->fetch_array(MYSQLI_ASSOC);
@@ -44,18 +45,28 @@
                 $result->free(); 
                 
                 $totalSalesQuery = 'INSERT INTO etsy_dailysales (storeid, date, totalSales) SELECT "'
-                    . $storeid . '", STR_TO_DATE("' . $value->date . '", "%m/%d/%Y %H:%i:%s"), "' . $value->totalSales . '" FROM etsy_dailysales '
+                    . $storeid . '", NOW(), "' . $value->sales . '" FROM etsy_dailysales '
                     . 'WHERE NOT EXISTS( SELECT * FROM etsy_dailysales WHERE storeid = "' . $storeid . '" AND '
-                    . 'date = STR_TO_DATE("'. $value->date .'", "%m/%d/%Y %H:%i:%s") ) LIMIT 1;';
+                    . 'date = NOW() ) LIMIT 1;';
                 //echo "<br/><br/>" . $totalSalesQuery;
-                $result = $conn->query($totalSalesQuery);
+                if($conn->query($totalSalesQuery) === TRUE){
+                    echo "<br/>New records created successfully";
+                    while($conn->more_results()) {
+                        $conn->next_result();
+                        if($res = $conn->store_result()) {
+                            $res->free(); 
+                        }
+                    }
+                }  else {
+                    echo "Error: <br>" . $conn->error;
+                }
 
             }
         }
     }
 
     //INSERT ITEM SALES
-    $itemSalesQuery = "";
+    /*$itemSalesQuery = "";
     if(sizeof($items) > 0){
         $limit = 0;
         foreach($items as $value){
@@ -76,7 +87,7 @@
             }
         }
         
-    }
+    }*/
 
     //close mysql
     $conn->close();

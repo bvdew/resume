@@ -16,7 +16,7 @@
     while($r = mysqli_fetch_assoc($result)) {
         $rows[] = $r;
     }
-    print json_encode($rows);
+    echo json_encode($rows);
 
     //close mysql
     $conn->close();
