@@ -125,16 +125,25 @@ var saveDocx = function (data) {
         .done(function (filename) {
             filename = $.trim(filename);
             if (filename) {
-                console.log(filename);
+                //console.log(filename);
                 //send it to the exporter
                 exportDocx(data, "templates/" + filename);
+                // Stop loading
+                $("#loadingPage .done").show();
             } else {
                 alert("No filename available");
             }
         })
         .fail(function (result) {
             console.log(result);
-        });
+        })
+        .always(function(){
+            setTimeout(function(){
+                $(".tab-container").slideDown();
+                $("#loadingPage").hide();
+                $("#loadingPage .done").hide();
+            }, 3000);
+        });;
     } else {
         //export the demo template
         exportDocx(data, "templates/demo.docx");

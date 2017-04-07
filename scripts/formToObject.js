@@ -94,7 +94,7 @@ function formToObject(callback) {
                 "startYear": $(grp).find("select.startYear").val() == 0 ? "" : $(grp).find("select.startYear").val(),
                 "endMonth": $(grp).find("select.endMonth").val() == 0 ? "" : $(grp).find("select.endMonth").val(),
                 "endYear": endYear == 0 ? "" : endYear,
-                "description": tempDescription
+                "description": description
             });
 
         }
@@ -161,15 +161,22 @@ function formToObject(callback) {
     //get references
     var ref = [];
     $("#references .reference-group").each(function () {
-        ref.push({
-            "name": $(this).find("input.name").val(),
-            "position": $(this).find("input.position").val(),
-            "company": $(this).find("input.company").val(),
-            "phone": $(this).find("input.phone").val(),
-            "email": $(this).find("input.email").val()
-        });
+        if($(this).find("input.referenceName").val() != ""){
+            ref.push({
+                "name": $(this).find("input.referenceName").val(),
+                "position": $(this).find("input.referencePosition").val(),
+                "company": $(this).find("input.referenceCompany").val(),
+                "phone": $(this).find("input.referencePhone").val(),
+                "email": $(this).find("input.referenceEmail").val()
+            });
+        }
     });
     data["references"] = ref;
+    if (data["references"].length) {
+        data["hasreferences"] = true;
+    } else {
+        data["hasreferences"] = false;
+    }
 
     $.each(data, function (id, value) {
         if (value != "" || value != 0) {
